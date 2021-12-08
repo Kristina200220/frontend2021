@@ -5,125 +5,71 @@
     <title></title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Libre+Caslon+Display&family=PT+Sans&family=Playfair+Display:wght@400;700&family=Wallpoet&display=swap" rel="stylesheet">
+    <link href="http://www.w3.org/TR/CSS21/fonts.html#propdef-font-family" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="css/style.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://unpkg.com/vue"></script>
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <title>Product App</title>
 </head>
 <body>
-<header class="header">
-    <div class="container">
-        <div class="top">
-            <img src="img/phone.svg" alt="phone">
-            <div class="text">
-                <p>097-499-00-12</p>
-                <p>Раді вітати на нашому сайті</p>
-            </div>
-            <img src="img/login.svg" class="login" alt="login">
-            <a href="#">Ввійти/реєстрація</a>
-        </div>
-    </div>
-</header>
-<section class="header2">
-    <div class="container">
-        <div class="nav">
-            <ul class="menu">
-                <li>
-                    <a class="main" href="#">На головну</a>
-                </li>
-                <li class="cab">
-                    <a href="#">Мій кабінет</a>
-                </li>
-                <li>
-                    <a href="#">Налаштування</a>
-                </li>
-            </ul>
-        </div>
-        <img src="img/search.svg" class="search" alt="search">
-        <div class="logo">Jingle bells</div>
-    </div>
-</section>
-<section class="mainpage">
-    <div class="logo"><img src="img/logo.png"></div>
-    <div class="textarea" class="text"><div class="text">Наш інтернет-магазин пропонує широкий асортимент новорічних подарунків та декору.</div></div>
-</section>
-<section class="mainarea">
-    <section class="season">
-        <div class="season"><h1>Новий рік 2022</h1>
-        </div>
-        <hr>
-        <div class="images">
-            <div class="group">
-                <div class="picture"><img src="img/pic1.png">
-                </div>
-                <div class="name">Золоті ключіки</div>
-                <div class="price">26 грн./шт</div>
-            </div>
-            <div class="group">
-                <div class="picture"><img src="img/pic2.png"></div>
-                <div class="name">Будиночок</div>
-                <div class="price">48 грн./шт</div>
-            </div>
-            <div class="group">
-                <div class="picture"><img src="img/pic3.png"></div>
-                <div class="name">Зірочки</div>
-                <div class="price">12 грн./шт</div>
-            </div>
-            <div class="group">
-                <div class="picture"><img src="img/pic4.png"></div>
-                <div class="name">Рукавичка</div>
-                <div class="price">17 грн./шт</div>
-            </div>
-        </div>
-    </section>
-</section>
-<section class="block4">
-    <div class="newproducts">
-        <div class="newproducts2"><h1>Новинки</h1></div>
-        <hr>
-        <div class="container">
-            <div class="group">
-                <div class="picture"><img src="img/pic5.png">
-                </div>
-                <div class="name">Гірлянда жовта</div>
-                <div class="price">200 грн.</div>
-            </div>
-            <div class="group">
-                <div class="picture"><img src="img/pic6.png"></div>
-                <div class="name">Банки з гірляндами</div>
-                <div class="price">100 грн.</div>
-            </div>
-            <div class="group">
-                <div class="picture"><img src="img/pic7.png"></div>
-                <div class="name">Новорічні фонарики</div>
-                <div class="price">200 гр.</div>
-            </div>
+
+<div id="myapp">
+
+    <div class="product">
+
+        <div class="product-image">
+            <img :src="image" />
         </div>
 
-<footer>
-    <section class="container">
-        <div class="columnone">
-            <div class="about"><h2>Про магазин</h2></div>
-            <div class="text3">Багато в чому підготовка до Нового Року та Різдва відбувається задовго до самих святкувань. Щоб все було ідеально, потрібно правильно підібрати кожен елемент відповідно до концепції оформлення приміщення. Наш магазин допоможе зробити будинок максимально комфортним для вас та ваших гостей.</div>
-        </div>
-        <div class="columntwo">
-            <div class="сategory"><h2>Категорії</h2></div>
-            <div class="qwerty">
-                <div class="categories">Ялинкові прикраси</div>
-                <div class="categories">Новорічні подарунки</div>
-                <div class="categories">Новорічні листівки</div>
-                <div class="secondgroup">
-                    <div class="categories">Гірлянди</div>
-                </div>
+        <div class="product-info">
+
+            <h1>{{ title }}</h1>
+
+            <p v-if="inventory > 11">В продажі</p>
+            <p v-else-if="inventory <= 11 && inventory > 0">Залишилися останні одиниці товару</p>
+            <p v-else>Немає в наявності</p>
+
+            <ul>
+                <li v-for="detail in details">{{ detail }}</li>
+            </ul>
+
+            <div
+                    class="color-box"
+                    v-for="variant in variants"
+                    :key="variant.variantId"
+                    :style="{ backgroundColor:variant.variantColor }"
+                    @click="updateProduct(variant.variantImage)"
+            >
+
             </div>
+
+            <div class="cart">
+                <p>Корзина({{ cart }})</p>
+            </div>
+
+            <button
+                    v-on:click="addToCart"
+                    :disabled="!inStock"
+                    :class="{ disabledButton: !inStock }"
+            >
+                Add to cart
+            </button>
+
         </div>
+    </div>
+
         <div class="columnthree">
             <div class="newsletter"><h2>Підписатися на наші новини</h2></div>
-            <div class="text4">Будь в курсі всіх новин і знижок!</div>
+            <div class="text">Будь в курсі всіх новин і знижок!</div>
             <div class="mail">
                 <div class="input"><input type="text" name="mail" value="" placeholder="Ваша почта"></div>
-                <div class="button3"><div class="subscr">Підписатися</div></div>
-            </div>
         </div>
-    </section>
-</footer>
+</div>
+
+<script src="finaljs.js"></script>
+
+    </div>
+
 </body>
 </html>
