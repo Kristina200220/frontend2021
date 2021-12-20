@@ -1,0 +1,81 @@
+@import url("https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;700&display=swap");
+
+@mixin quicksand {
+  font-family: "Quicksand", sans-serif;
+}
+
+$color-main: #000000;
+$color-secondary: #FF00FF;
+$color-back: #696969;
+$base: 40px;
+$base2: 20px;
+$height: 60px;
+
+body {
+  color: $color-main;
+  margin: 0;
+  @include quicksand()
+}
+
+.nav-bar {
+  background: lighten($color-main, 5%);
+  height: $height;
+  margin-bottom: $base2;
+}
+
+.product {
+  display: flex;
+  flex-flow: wrap;
+}
+
+img {
+  border: none;
+  width: 70%;
+  margin: $base;
+}
+
+.product-image {
+  width: 80%;
+}
+
+.product-image,
+.product-info {
+  margin-top: $base2;
+  width: 50%;
+}
+
+.color-box {
+  width: $base;
+  height: $base;
+  -webkit-border-radius: $base2;
+  -moz-border-radius: $base2;
+  border-radius: $base2;
+  margin-top: $base2;
+  cursor: pointer;
+}
+
+.cart {
+  margin-right: $base2;
+  float: right;
+  height: $base;
+  width: $base2;
+}
+
+button {
+  margin-top: $base2;
+  background-color: white;
+  box-shadow: $base2 $base2 $color-secondary;
+  height: $base;
+}
+
+.disabledButton {
+  background-color: $color-back;
+}
+
+.review-form {
+  padding: $base2;
+  margin: $base;
+
+}
+
+
